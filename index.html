@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="description" content="FitGlass AI — anteriormente IA KSC. Aplicación web de nutrición inteligente para Eureka.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='18' width='64' height='64' fill='%2311141b'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23ffd12a' stroke-width='5' stroke-dasharray='82 44'/%3E%3Ccircle cx='32' cy='32' r='11' fill='%23fff' fill-opacity='.12'/%3E%3C/svg%3E">
+  <title>FitGlass AI — anteriormente IA KSC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="ambient ambient-c"></div>
+  <div class="noise"></div>
+
+  <div id="onboarding" class="screen-overlay hidden">
+    <div class="glass onboarding-card">
+      <div class="brand-row"><div class="brand-mark">FG</div><div><strong>FitGlass AI</strong><span>anteriormente IA KSC</span></div></div>
+      <div class="stepper" id="stepper"></div>
+      <div id="onboardingContent"></div>
+    </div>
+  </div>
+
+  <header class="topbar glass">
+    <div class="brand-row">
+      <div class="brand-mark glow">FG</div>
+      <div class="brand-copy"><strong>FitGlass AI</strong><span>anteriormente IA KSC</span></div>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="profileBtn" title="Perfil" aria-label="Perfil"><span class="svg-icon person"></span></button>
+      <button class="icon-btn" id="settingsBtn" title="Ajustes" aria-label="Ajustes"><span class="svg-icon gear"></span></button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section id="view-home" class="view active">
+      <div class="hero glass-strong">
+        <div class="hero-copy">
+          <div class="eyebrow" id="greeting">Buenos días</div>
+          <h1 id="heroTitle">Tu progreso, de un vistazo.</h1>
+          <p id="heroSubtitle">Configura tu perfil para calcular tus objetivos nutricionales.</p>
+          <div class="hero-meta"><span class="pill" id="regionPill">Región —</span><span class="pill" id="goalPill">Objetivo —</span></div>
+        </div>
+        <div class="profile-orb"><img id="profileImage" alt="Foto de perfil"><div class="orb-ring"></div></div>
+      </div>
+
+      <div class="grid-4 stats-grid">
+        <article class="glass stat-card accent-yellow"><span>Calorías</span><strong id="caloriesValue">0</strong><small>de <b id="caloriesGoal">0</b> kcal</small></article>
+        <article class="glass stat-card accent-green"><span>Proteína</span><strong id="proteinValue">0 g</strong><small>meta <b id="proteinGoal">0 g</b></small></article>
+        <article class="glass stat-card accent-blue"><span>Agua</span><strong id="waterValue">0.0 L</strong><small>meta <b id="waterGoal">2.5 L</b></small></article>
+        <article class="glass stat-card accent-purple"><span>Peso</span><strong id="weightValue">—</strong><small>meta <b id="targetWeightValue">—</b></small></article>
+      </div>
+
+      <div class="grid-2 main-grid">
+        <article class="glass panel ring-panel">
+          <div class="panel-head"><div><h2>Objetivos de hoy</h2><p>Balance nutricional</p></div><button class="tiny-btn" id="quickMealBtn">+ Añadir</button></div>
+          <div class="rings-wrap">
+            <div class="ring" data-ring="calories"><svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="78"></circle><circle class="ring-progress yellow" cx="100" cy="100" r="78"></circle></svg><div class="ring-center"><strong id="ringCalories">0%</strong><span>calorías</span></div></div>
+            <div class="ring ring-small" data-ring="protein"><svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="78"></circle><circle class="ring-progress green" cx="100" cy="100" r="78"></circle></svg><div class="ring-center"><strong id="ringProtein">0%</strong><span>proteína</span></div></div>
+            <div class="ring ring-small" data-ring="water"><svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="78"></circle><circle class="ring-progress blue" cx="100" cy="100" r="78"></circle></svg><div class="ring-center"><strong id="ringWater">0%</strong><span>agua</span></div></div>
+          </div>
+          <div class="legend-row"><span><i class="dot yellow"></i>Calorías</span><span><i class="dot green"></i>Proteína</span><span><i class="dot blue"></i>Agua</span></div>
+        </article>
+
+        <article class="glass panel">
+          <div class="panel-head"><div><h2>Panorama regional</h2><p id="regionalTitle">Selecciona tu región</p></div><span class="region-badge" id="regionBadge">—</span></div>
+          <div class="regional-grid">
+            <div class="metric-tile"><span>Contexto</span><strong id="regionalContext">—</strong></div>
+            <div class="metric-tile"><span>Foco</span><strong id="regionalFocus">—</strong></div>
+            <div class="metric-tile wide"><span>Consejo del día</span><strong id="regionalTip">Configura tu perfil.</strong></div>
+          </div>
+          <div class="mini-note">Los indicadores regionales son educativos. No constituyen diagnóstico médico.</div>
+        </article>
+      </div>
+
+      <div class="grid-2 main-grid">
+        <article class="glass panel chart-panel"><div class="panel-head"><div><h2>Peso</h2><p>Últimos 14 registros</p></div><span id="weightDelta" class="delta">—</span></div><svg id="weightChart" class="chart" viewBox="0 0 700 250" preserveAspectRatio="none"></svg></article>
+        <article class="glass panel chart-panel"><div class="panel-head"><div><h2>Macros</h2><p>Consumo frente a objetivo</p></div></div><div id="macroBars" class="macro-bars"></div></article>
+      </div>
+
+      <div class="grid-3 main-grid">
+        <article class="glass panel action-card" data-action="water"><div class="action-icon water-icon"></div><div><h3>Añadir agua</h3><p>+250 ml por toque</p></div><button class="round-plus">+</button></article>
+        <article class="glass panel action-card" data-action="meal"><div class="action-icon meal-icon"></div><div><h3>Registrar comida</h3><p>Texto, foto o código</p></div><button class="round-plus">+</button></article>
+        <article class="glass panel action-card" data-action="progress"><div class="action-icon progress-icon"></div><div><h3>Actualizar progreso</h3><p>Peso y medidas</p></div><button class="round-plus">+</button></article>
+      </div>
+    </section>
+
+    <section id="view-scan" class="view">
+      <div class="glass-strong section-header"><div><div class="eyebrow">Cámara + visión</div><h1>Foto IA</h1><p>Analiza un plato y conviértelo en un registro nutricional.</p></div><span class="status-chip" id="cameraStatus">Cámara lista</span></div>
+      <div class="scan-layout">
+        <article class="glass camera-card">
+          <video id="cameraPreview" autoplay playsinline muted></video>
+          <div id="cameraPlaceholder" class="camera-placeholder"><div class="camera-mark"></div><h2>Activa la cámara</h2><p>El navegador solicitará permiso la primera vez.</p><button class="primary-btn" id="enableCameraBtn">Permitir cámara</button></div>
+          <div class="camera-controls"><button class="icon-btn big" id="uploadPhotoBtn" title="Subir foto"><span class="svg-icon image"></span></button><button class="shutter" id="captureBtn" title="Tomar foto"></button><button class="icon-btn big" id="stopCameraBtn" title="Apagar cámara"><span class="svg-icon close"></span></button></div>
+          <input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
+        </article>
+        <article class="glass panel result-card">
+          <div class="panel-head"><div><h2>Análisis</h2><p>IA nutricional</p></div><span class="ai-badge">AI</span></div>
+          <div id="analysisResult" class="analysis-empty"><div class="sparkle"></div><h3>Aún no hay análisis</h3><p>Toma una foto de tu comida para iniciar.</p></div>
+        </article>
+      </div>
+      <div class="glass panel privacy-note"><span class="shield"></span><div><strong>Permisos y privacidad</strong><p>La cámara solo se activa después de tu permiso. Las fotos pueden permanecer localmente en tu dispositivo, según el modo elegido.</p></div></div>
+    </section>
+
+    <section id="view-coach" class="view">
+      <div class="glass-strong section-header"><div><div class="eyebrow">Asistente restringido</div><h1>Coach</h1><p>Solo responde sobre nutrición, alimentación y bienestar relacionado.</p></div><span class="status-chip green">Nutrición</span></div>
+      <div class="coach-layout">
+        <article class="glass panel chat-panel"><div id="chatMessages" class="chat-messages"></div><div class="chat-composer"><textarea id="chatInput" rows="1" placeholder="Pregunta sobre nutrición…"></textarea><button class="primary-btn" id="sendChatBtn">Enviar</button></div></article>
+        <aside class="glass panel coach-side"><h2>Contexto de tu perfil</h2><div id="coachProfile"></div><div class="coach-rule"><span class="shield"></span><p>El Coach puede orientar. No diagnostica enfermedades ni sustituye a profesionales de salud.</p></div></aside>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav glass" aria-label="Navegación">
+    <button class="nav-item active" data-view="home"><span class="svg-icon home"></span><span>Inicio</span></button>
+    <button class="nav-item" data-view="scan"><span class="svg-icon image"></span><span>Foto IA</span></button>
+    <button class="nav-item" data-view="coach"><span class="svg-icon spark"></span><span>Coach</span></button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+  <div id="modalHost"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
