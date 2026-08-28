@@ -112,8 +112,42 @@
     $$('[data-plus-view]').forEach(b=>b.addEventListener('click',()=>showPlusView(b.dataset.plusView)));
   }
 
+
+  function renderWaterGlassesHome(){
+    const root=$('#waterGlassesHome');
+    const valueNode=$('#waterValue');
+    const goalNode=$('#waterGoal');
+    if(!root || !valueNode || !goalNode) return;
+    const p=profile();
+    const m=metrics();
+    const current=Math.round((Number((base().waterByDay||{})[today()]) || Number(base().water)||0) / 0.25);
+    const target=Math.max(1,Math.ceil(Number(m.water||2.5)/0.25));
+    valueNode.textContent=current;
+    goalNode.textContent=target;
+    root.innerHTML='';
+    for(let i=1;i<=target;i++){
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='water-glass-home'+(i<=current?' full':'')+(i===current+1?' current':'');
+      b.title=i<=current?`Vaso ${i} registrado`:`Registrar hasta ${i} vasos`;
+      b.setAttribute('aria-label',b.title);
+      b.addEventListener('click',()=>{
+        const s=base();
+        s.waterByDay=s.waterByDay||{};
+        s.waterByDay[today()]=i*0.25;
+        delete s.water;
+        localStorage.setItem(KEY,JSON.stringify(s));
+        renderWaterGlassesHome();
+        renderPlusDashboard();
+        toast(`Agua registrada: ${i} vaso${i===1?'':'s'}`);
+      });
+      root.appendChild(b);
+    }
+  }
+
   function renderPlusDashboard(){
     const p=profile(); if(!p)return;
+    renderWaterGlassesHome();
     const m=metrics(), ms=meals(), d=today();
     const todays=ms.filter(x=>x.date===d); const kcal=todays.reduce((a,x)=>a+Number(x.calories||0),0);const protein=todays.reduce((a,x)=>a+Number(x.protein||0),0);
     $('#plus-profile-title').textContent=`${p.name}, perfil sincronizado`;
@@ -338,8 +372,8 @@
       }
     } catch {}
     injectNavigation();ensureMainContainer();bindPlusViewLinks();bindPlusEvents();improveBackground();
-    setTimeout(()=>{renderPlusDashboard();renderOfficialSources();renderProducts();renderCalendar();updateTimerUI();patchExistingCoach();},900);
-    setInterval(()=>{if(document.visibilityState==='visible'){renderPlusDashboard();updateTimerUI()}},15000);
+    setTimeout(()=>{renderPlusDashboard();renderWaterGlassesHome();renderOfficialSources();renderProducts();renderCalendar();updateTimerUI();patchExistingCoach();},900);
+    setInterval(()=>{if(document.visibilityState==='visible'){renderPlusDashboard();renderWaterGlassesHome();updateTimerUI()}},15000);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

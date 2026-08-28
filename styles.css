@@ -46,3 +46,11 @@ button,input,textarea,select{font:inherit}button{border:0;color:inherit;cursor:p
 @media(max-width:1180px){.plus-stat-grid{grid-template-columns:repeat(2,1fr)}.plus-grid-2,.plus-barcode-layout,.timer-layout{grid-template-columns:1fr}.official-grid,.public-data-grid{grid-template-columns:1fr 1fr}.local-product-grid-plus{grid-template-columns:1fr 1fr}.presentation-rings{gap:15px}.presentation-rings div{width:120px;height:120px}}
 @media(max-width:820px){.plus-hero{grid-template-columns:1fr}.plus-orbit{margin-top:20px}.plus-stat-grid{grid-template-columns:1fr 1fr}.official-grid,.public-data-grid,.streak-hero-grid{grid-template-columns:1fr}.timer-buttons-plus{grid-template-columns:1fr 1fr}.presentation-board{padding:35px 18px}.presentation-board h2{font-size:34px}.presentation-rings{display:grid;grid-template-columns:1fr 1fr}.presentation-rings div{width:130px;height:130px;margin:auto}}
 @media(max-width:560px){.plus-stat-grid{grid-template-columns:1fr 1fr}.plus-permission-actions{grid-template-columns:1fr}.barcode-actions{grid-template-columns:1fr}.local-product-grid-plus{grid-template-columns:1fr}.timer-ring{width:235px;height:235px}.timer-presets-plus{grid-template-columns:1fr 1fr}.timer-buttons-plus{grid-template-columns:1fr}.presentation-rings{grid-template-columns:1fr}.presentation-rings div{width:145px;height:145px}}
+
+/* Water by glasses */
+.water-stat-plus{position:relative;overflow:hidden}
+.water-glasses-home{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px;max-width:190px}
+.water-glass-home{width:16px;height:22px;border-radius:5px 5px 4px 4px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(to top,rgba(117,230,255,.06),rgba(255,255,255,.02));position:relative;overflow:hidden;cursor:pointer}
+.water-glass-home:after{content:"";position:absolute;left:2px;right:2px;bottom:2px;height:0;border-radius:3px;background:linear-gradient(180deg,#75e6ff,#6aaeff);transition:height .25s ease}
+.water-glass-home.full:after{height:78%}
+.water-glass-home.current{box-shadow:0 0 0 1px rgba(117,230,255,.28),0 0 13px rgba(117,230,255,.08)}
