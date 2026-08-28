@@ -1,0 +1,1 @@
+# FitGlass-AI-anteriormente-IA-KSC
