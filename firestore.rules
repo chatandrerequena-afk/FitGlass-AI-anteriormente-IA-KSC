@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Prototype educational app using anonymous Firebase Auth.
+    // Each user may only access their own application state.
+    match /users/{userId}/app/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Shared nutrition product database for the Eureka prototype.
+    // For production, replace with tighter validation and moderation.
+    match /food_database/{barcode} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
